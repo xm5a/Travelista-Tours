@@ -342,6 +342,28 @@
     container: 'map-container',
   })
 
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-analytics.js";
+  import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
+
+  // Your web app's Firebase configuration
+  const firebaseConfig = {
+    apiKey: "AIzaSyBinQO3_OZ4zozkvyC4litpysTy0MU0Dz4",
+    authDomain: "acrosecurity-c3c03.firebaseapp.com",
+    projectId: "acrosecurity-c3c03",
+    storageBucket: "acrosecurity-c3c03.firebasestorage.app",
+    messagingSenderId: "336149977548",
+    appId: "1:336149977548:web:f7d833f35a89f97afaa569",
+    measurementId: "G-QTV2HJ8PMX"
+  };
+
+  // 1. Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
+const db = getFirestore(app);
+        const touristMarkers[] = {};
+        const TOURIST_COLLECTION_PATH = "tourists";
+        
         function updateMapMarker(touristId, lat, lon, status) { 
     const coordinates = [lon, lat]; 
     
@@ -432,5 +454,6 @@ onSnapshot(touristCollection, (snapshot) => {
 </body>
 
 </html>
+
 
 
