@@ -341,8 +341,96 @@
     zoom: 9.5,
     container: 'map-container',
   })
+
+        function updateMapMarker(touristId, lat, lon, status) { 
+    const coordinates = [lon, lat]; 
+    
+    // 1. Calculate the Geofence Status
+    const geoFncPosStat = getGeofenceStatus(lat, lon);
+    
+    // 2. Combine the status for the popup text
+    const popupText = 
+        `Tourist ID: ${touristId}\n` +
+        `Location: ${lat.toFixed(6)}, ${lon.toFixed(6)}\n` +
+        `Geofence Status: ${geoFncPosStat}\n` +
+        `API Status: ${status || 'N/A'}`; // Include API status from the backend
+    
+    if (touristId in touristMarkers) {
+        // --- UPDATE EXISTING MARKER ---
+        
+        // A. Update Marker Position
+        touristMarkers[touristId].marker.setLngLat(coordinates);
+        
+        // B. **CRITICAL FIX: Update the Popup text using the stored popup reference**
+        touristMarkers[touristId].popup.setText(popupText);
+
+        console.log(`Updated marker and popup for ${touristId}`);
+
+    } else {
+        // --- CREATE NEW MARKER ---
+        
+        // Create the Popup instance first
+        const popup = new maplibregl.Popup({ offset: 25 }).setText(popupText);
+        
+        // Create the Marker instance and attach the popup
+        const marker = new maplibregl.Marker({ color: status === 'MISSING' ? 'red' : 'blue' })
+            .setLngLat(coordinates)
+            .setPopup(popup) 
+            .addTo(map);
+            
+        // 3. Store the Marker AND the Popup reference in the centralized object
+        touristMarkers[touristId] = {
+            marker: marker,
+            popup: popup
+        };
+        
+        console.log(`New marker added for ${touristId}`);
+        map.flyTo({
+            center: coordinates, 
+            zoom: 14,             
+            speed: 1.5            
+        });
+    }
+}
+    
+/**
+ * Removes a map marker for a specific tourist ID.
+ * @param {string} touristId - The ID of the tourist.
+ */
+function removeMapMarker(touristId) {
+    if (touristId in touristMarkers) {
+        touristMarkers[touristId].marker.remove(); // Use the stored marker object
+        delete touristMarkers[touristId];
+        console.log(`Marker and popup removed for ${touristId}`);
+    }
+}
+
+// --- REAL-TIME DATA LISTENER ---
+const touristCollection = collection(db, TOURIST_COLLECTION_PATH);
+    
+onSnapshot(touristCollection, (snapshot) => {
+    snapshot.docChanges().forEach((change) => {
+        const touristData = change.doc.data();
+        const touristId = change.doc.id;
+        const lat = touristData.latitude;
+        const lon = touristData.longitude; 
+        const status = touristData.status; // Get the status from the backend
+
+        if (change.type === "added" || change.type === "modified") {
+            // Only update if we have valid coordinates
+            if (typeof lat === 'number' && typeof lon === 'number') {
+                updateMapMarker(touristId, lat, lon, status);
+            } else {
+                console.error(`Invalid coordinates for ${touristId}. Skipping update.`);
+            }
+        } else if (change.type === "removed") {
+            removeMapMarker(touristId);
+        }
+    });
+});
 </script>
 </body>
 
 </html>
+
 
