@@ -380,6 +380,27 @@ function updateTouristCountDisplay() {
         
 function updateMapMarker(touristId, lat, lon, status) { 
     // ... (Your coordinates, popupText, etc. logic)
+    const coordinates = [lon, lat]; 
+
+    
+
+    // 1. Calculate the Geofence Status
+
+    //const geoFncPosStat = getGeofenceStatus(lat, lon);
+
+    
+
+    // 2. Combine the status for the popup text
+
+    const popupText = 
+
+        `Tourist ID: ${touristId}\n` +
+
+        `Location: ${lat.toFixed(6)}, ${lon.toFixed(6)}\n` +
+
+        //`Geofence Status: ${geoFncPosStat}\n` +
+
+        `API Status: ${status || 'N/A'}`; // Include API status from the backend
     
     if (touristId in touristMarkers) {
         // --- MODIFIED EXISTING MARKER (No count change needed) ---
@@ -449,6 +470,7 @@ onSnapshot(touristCollection, (snapshot) => {
 </body>
 
 </html>
+
 
 
 
