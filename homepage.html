@@ -277,7 +277,7 @@
                     <div class="stat-card">
                         <div class="icon users"><i class="fa-solid fa-users"></i></div>
                         <div class="info">
-                            <h3>1,482</h3>
+                            <h3 id="activetcount">null</h3>
                             <p>Active Tourists</p>
                         </div>
                     </div>
@@ -388,6 +388,8 @@ const db = getFirestore(app);
 
         console.log(`Updated marker and popup for ${touristId}`);
 
+        document.getElementById("activetcount").innerText = touristMarkers.length;
+
     } else {
         // --- CREATE NEW MARKER ---
         
@@ -454,6 +456,7 @@ onSnapshot(touristCollection, (snapshot) => {
 </body>
 
 </html>
+
 
 
 
