@@ -57,8 +57,6 @@
         async function generateDeviceFingerprint() {
             // Collect stable device characteristics
             const components = [
-                navigator.hardwareConcurrency || 'unknown',
-                navigator.deviceMemory || 'unknown',
                 screen.width,
                 screen.height,
                 screen.colorDepth,
