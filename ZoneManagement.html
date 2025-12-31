@@ -182,6 +182,34 @@
     
     <script>
         Radar.initialize('prj_test_pk_9ecb50024e28cc6720ebc1af765b10b4d7a4bf61');
+        // 1. Initialize with your key
+Radar.initialize('YOUR_PUBLISHABLE_API_KEY');
+
+// 2. Identify the user (optional, but good for logs)
+Radar.setUserId('tourist_123'); 
+
+// 3. Check location
+function checkGeofence() {
+    Radar.trackOnce(function(err, result) {
+        if (!err) {
+            // "geofences" is an array of fences the user is currently INSIDE
+            const geofences = result.geofences;
+
+            if (geofences && geofences.length > 0) {
+                // User is inside a geofence!
+                const fenceName = geofences[0].description;
+                alert(`Welcome to ${fenceName}!`);
+                
+                // You can also push this to your Alert History here
+                addToHistory(fenceName); 
+            } else {
+                console.log("User is not in any geofence.");
+            }
+        } else {
+            console.error("Error getting location:", err);
+        }
+    });
+}
         const modal = document.getElementById('zone-modal');
         function openModal() { modal.style.display = 'flex'; }
         function closeModal() { modal.style.display = 'none'; }
@@ -189,4 +217,5 @@
     </script>
 </body>
 </html>
+
 
