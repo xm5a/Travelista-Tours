@@ -191,7 +191,7 @@
 // 2. Identify the user (optional, but good for logs)
 Radar.setUserId('tourist_123'); 
 const map = Radar.ui.map({
-        container: 'map-panel', // OR document.getElementById('map')
+        container: 'map-overlay', // OR document.getElementById('map')
         style: 'radar-default-v1',
         center: [-73.9911, 40.7342], // NYC
         zoom: 14,
@@ -225,6 +225,7 @@ function checkGeofence() {
     </script>
 </body>
 </html>
+
 
 
 
