@@ -8,8 +8,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
     <!-- Font Awesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link href="https://js.radar.com/v4.1.19/radar.css" rel="stylesheet">
-    <script src="https://js.radar.com/v4.1.19/radar.min.js"></script>
+    <link href="https://js.radar.com/v4.5.3/radar.css" rel="stylesheet">
+    <script src="https://js.radar.com/v4.5.3/radar.min.js"></script>
 
     <!-- Internal CSS -->
     <style>
@@ -181,6 +181,8 @@
     </div>
     
     <script type = "module">
+        import Radar from 'radar-sdk-js';
+        import 'radar-sdk-js/dist/radar.css';
         Radar.initialize('prj_test_pk_9ecb50024e28cc6720ebc1af765b10b4d7a4bf61');
         // 1. Initialize with your key
 // 2. Identify the user (optional, but good for logs)
@@ -215,6 +217,7 @@ function checkGeofence() {
     </script>
 </body>
 </html>
+
 
 
 
