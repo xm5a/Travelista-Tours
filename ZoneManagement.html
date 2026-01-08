@@ -197,7 +197,7 @@ const map = Radar.ui.map({
         zoom: 14,
       });
 // 3. Check location
-function checkGeofence() {
+/*function checkGeofence() {
     Radar.trackOnce(function(err, result) {
         if (!err) {
             // "geofences" is an array of fences the user is currently INSIDE
@@ -217,7 +217,46 @@ function checkGeofence() {
             console.error("Error getting location:", err);
         }
     });
-}
+}*/
+        function CreateGeofence(){
+            const draw = new MapboxDraw({
+  displayControlsDefault: false,
+  controls: { polygon: true, trash: true }
+});
+map.addControl(draw);
+
+// 2. Enable button only when name is present
+const nameInput = document.getElementById('fenceName');
+const drawBtn = document.getElementById('drawBtn');
+
+nameInput.addEventListener('input', () => {
+  drawBtn.disabled = nameInput.value.trim() === '';
+});
+
+// 3. Start Drawing
+drawBtn.addEventListener('click', () => {
+  draw.changeMode('draw_polygon');
+});
+
+// 4. Handle Completion
+map.on('draw.create', async (e) => {
+  const name = nameInput.value;
+  const feature = e.features[0];
+  const coordinates = feature.geometry.coordinates;
+
+  // Save to Radar (Pseudo-code for Radar API)
+  const newGeofence = await saveToRadar(name, coordinates);
+
+  // 5. Fly to the new Geofence
+  const bounds = getBounds(coordinates); // Helper to find center/envelope
+  map.flyTo({
+    center: bounds.center,
+    zoom: 15,
+    essential: true
+  });
+});
+        }
+            
         const modal = document.getElementById('zone-modal');
         function openModal() { modal.style.display = 'flex'; }
         function closeModal() { modal.style.display = 'none'; }
@@ -225,6 +264,7 @@ function checkGeofence() {
     </script>
 </body>
 </html>
+
 
 
 
