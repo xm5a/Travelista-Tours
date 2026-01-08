@@ -13,6 +13,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link href="https://js.radar.com/v4.5.3/radar.css" rel="stylesheet"/>
     <script src="https://js.radar.com/v4.5.3/radar.min.js"></script>
+    <link rel='stylesheet' href='https://unpkg.com/maplibre-gl@5.15.0/dist/maplibre-gl.css' />
+    <script src='https://unpkg.com/maplibre-gl@5.15.0/dist/maplibre-gl.js'></script>
 
     <!-- Internal CSS -->
     <style>
@@ -230,13 +232,16 @@ map.addControl(draw);
 const nameInput = document.getElementById('zone-name');
 const riskInput = document.getElementById('zone-risk');
 const drawBtn = document.getElementById('CreateGeofence');
-
-nameInput.addEventListener('input', () => {
+const zl = document.getElementById('zone-list')
   drawBtn.disabled = nameInput.value.trim() === '';
 });
 
 // 3. Start Drawing
 drawBtn.addEventListener('click', () => {
+    const newZone = document.createElement('li')
+    newZone.setAttribute('class','zone-item');
+    newZone.innerHTML = '<div class="zone-info"><h3>Border Checkpoint Area</h3><span class="zone-status status-prohibited">Prohibited Zone</span></div><div class="zone-actions"><button onclick="openModal()"><i class="fa-solid fa-pencil"></i></button><button><i class="fa-solid fa-trash"></i></button></div>';
+    zl.appendChild(newZone);
   draw.changeMode('draw_polygon');
 });
 
@@ -267,6 +272,7 @@ map.on('draw.create', async (e) => {
     </script>
 </body>
 </html>
+
 
 
 
