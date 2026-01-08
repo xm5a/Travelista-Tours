@@ -178,7 +178,7 @@
             </div>
             <div class="modal-footer">
                  <button class="btn btn-secondary" onclick="closeModal()">Cancel</button>
-                 <button class="btn btn-primary" onclick="closeModal()" id="CreateGeofence">Save Zone</button>
+                 <button class="btn btn-primary" onclick="CreateGeofence()" id="CreateGeofence">Save Zone</button>
             </div>
         </div>
     </div>
@@ -219,6 +219,7 @@ const map = Radar.ui.map({
     });
 }*/
         function CreateGeofence(){
+            modal.style.display = 'none';
             const draw = new MapboxDraw({
   displayControlsDefault: false,
   controls: { polygon: true, trash: true }
@@ -266,6 +267,7 @@ map.on('draw.create', async (e) => {
     </script>
 </body>
 </html>
+
 
 
 
